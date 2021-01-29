@@ -16,7 +16,7 @@ function player() {
 }
 
 function updateState(td) {
-  td.innerHTML = player()
+  td.innerHTML = player();
 }
 
 function setMessage(str) {
