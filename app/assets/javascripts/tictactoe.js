@@ -54,41 +54,119 @@ function createStateArray() {
 }
 
 function previousGames() {
-  
+  $.get("/games")
+  .done(function(data){
+    var $games = $("#games");
+    $games.empty();
+    $.each(data.data, function(index){
+      $games.append("<button data-id="+data[index]["id"]+">"+data.data[index]["id"]+".game</button><br>");
+    });
+    $("button[data-id]").on("click", getGem);
+  });
 }
 
 function saveGame() {
-  
+  var state = createStateArray();
+  if (currentGame > 0) {
+    $.ajax({
+      method: "PATCH",
+      url:"/games/"+currentGame,
+      data:{state:state}
+    });
+  }else{
+    $.post("/games",{state:state})
+    .done(function(data){
+      currentGame = parseInt(data.data["id"]);
+    });
+  }
 }
 
 function getGame() {
-  
+  $.get("/games/"+parseInt(this.dataset["id"]))
+  .done(function(data){
+    currentGame = parseInt(data.data["id"]);
+    populateBoard(data.data["attributes"]["state"]);
+  });
 }
 
 function checkWinner() {
-  
+  if(playerWon("X") === true){
+    setMessage("player X Won!");
+    return true;
+  } else if (playerWon("O") === true){
+    setMessage("Player O Won!");
+    return true;
+  } else {
+    return false;
+  }
 }
 
-function playerTokens() {
-  
+function playerTokens(token) {
+  let tokens = []
+  $("td").each(function(index){
+    if($(this).text() == token) {
+      tokens.push(index)
+    }
+  });
+  return tokens;
 }
 
-function playerWon() {
+function playerWon(token) {
+  let tokens = playerTokens(token)
+  let winner = false
   
+  WIN_COMBINATIONS.forEach(function(game){
+    if(game.every((val) => tokens.includes(val)) == true) {
+      winner = true
+    }
+  });
+  return winner
 }
 
 function clearBoard() {
-  
+  $("td").each(function(index){
+    $(this).text("");
+  });
+  currentGame = 0;
+  turn = 0;
 }
 
-function doTurn() {
+function doTurn(token) {
+  updateState(token);
   
+  if(checkWinner()){
+    saveGame();
+    clearBoard();
+  } else if(turn === 8) {
+    setMessage("Tie game.")
+    saveGame();
+    clearBoard();
+  } else {
+    turn++
+  }
 }
 
 $(document).ready(function() {
-  
+  attachListeners();
 });
 
 function attachListeners() {
   
+  $('td').on('click', function() {
+    if (!$.text(this) && !checkWinner()) {
+      doTurn(this);
+    }
+  });
+  
+  $('#clear').on('click', function() {
+    clearBoard();
+  });
+  
+  $('#previous').on('click', function() {
+    previousGames();
+  });
+  
+  $('#save').on('click', function() {
+    saveGame(this);
+  });  
 }
