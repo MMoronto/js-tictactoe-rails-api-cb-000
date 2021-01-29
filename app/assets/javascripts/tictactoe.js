@@ -59,7 +59,7 @@ function previousGames() {
     var $games = $("#games");
     $games.empty();
     $.each(data.data, function(index){
-      $games.append("<button data-id="+data[index]["id"]+">"+data.data[index]["id"]+".game</button><br>");
+      $games.append("<button data-id="+data.data[index]["id"]+">"+data.data[index]["id"]+".game</button><br>");
     });
     $("button[data-id]").on("click", getGem);
   });
