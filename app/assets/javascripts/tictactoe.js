@@ -11,3 +11,31 @@ const WIN_COMBINATIONS = [
 function player() {
   
 }
+
+function updateState() {
+  
+}
+
+function setMessage() {
+  
+}
+
+function populateBoard() {
+  
+}
+
+function turnCount() {
+  
+}
+
+function createStateArray() {
+  
+}
+
+function previousGames() {
+  
+}
+
+function saveGame() {
+  
+}
