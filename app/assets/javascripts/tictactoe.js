@@ -1,3 +1,6 @@
 var turn = 0
 
-let c
+let currentGame = 0
+
+const WIN_COMBINATIONS = [
+  ]
