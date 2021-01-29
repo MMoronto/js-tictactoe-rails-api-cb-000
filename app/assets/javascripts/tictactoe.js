@@ -39,3 +39,8 @@ function previousGames() {
 function saveGame() {
   
 }
+
+function getGame() {
+  
+}
+
