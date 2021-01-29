@@ -1,1 +1,3 @@
-// Code your JavaScript / jQuery solution here
+var turn = 0
+
+let c
