@@ -91,7 +91,7 @@ function getGame() {
 
 function checkWinner() {
   if(playerWon("X") === true){
-    setMessage("player X Won!");
+    setMessage("Player X Won!");
     return true;
   } else if (playerWon("O") === true){
     setMessage("Player O Won!");
